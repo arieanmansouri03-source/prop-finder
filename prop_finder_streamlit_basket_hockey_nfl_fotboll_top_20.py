@@ -302,11 +302,11 @@ if results_df is not None and not results_df.empty:
             new_rows = view_df[~view_df["pick_id"].isin(ss["seen_pick_ids"])]
             for _, r in new_rows.iterrows():
                 msg = (
-                f"""**{r['sport']} – {r['league']}**
+               st.markdown(
+    f"""**{r['sport']} - {r['league']}**
 {r['player']} | {r['market']} {r['selection'].upper()} {r['line']} @ {r['odds_decimal']} ({r['book']})"""
-f"""**{r['sport']} – {r['league']}**
-{r['player']} | {r['market']} {r['selection'].upper()} {r['line']} @ {r['odds_decimal']} ({r['book']})"""
-f"""**{r['sport']} – {r['league']}**
+)
+
 
 f"""**{r['sport']} - {r['league']}**
 {r['player']} | {r['market']} {r['selection'].upper()} {r['line']} @ {r['odds_decimal']} ({r['book']})"""
