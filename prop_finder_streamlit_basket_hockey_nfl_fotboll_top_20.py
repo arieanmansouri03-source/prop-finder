@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # prop_finder_streamlit.py
 # -------------------------------------------------------------
 # "Prop Finder" - EV/Edge-rankare for player props och fler markets
@@ -104,11 +105,11 @@ REQUIRED_PROJ_COLS = [
 ]
 
 # ----------------------- UI Setup ----------------------------
-st.set_page_config(page_title="Prop Finder", page_icon="🎯", layout="wide")
+st.set_page_config(page_title="Prop Finder", page_icon=":dart:", layout="wide")
 
 password_required = bool(st.secrets.get("APP_PASSWORD"))
 if password_required:
-    pw = st.text_input("Lösenord", type="password")
+    pw = st.text_input("Losenord", type="password")
     if pw != st.secrets["APP_PASSWORD"]:
         st.stop()
 
@@ -116,19 +117,14 @@ st.title("Prop Finder - Player Props (Basket, Hockey, NFL, Fotboll)")
 
 with st.expander("Hur funkar det?", expanded=True):
     st.markdown(
-        (
-            "Ladda upp odds_props.csv och projections.csv (se kolumner nedan).
-"
-            "Appen räknar EV och Edge%, föreslår Kelly-stake, loggar spel, mäter CLV och ROI.
+        """
+Ladda upp odds_props.csv och projections.csv (se kolumner nedan).
+Appen raknar EV och Edge%, foreslar Kelly-stake, loggar spel, mater CLV och ROI.
 
-"
-            "CSV-format
-"
-            "odds_props.csv: book,sport,league,player,market,selection,line,odds_decimal,odds_american,timestamp,event_id,opponent
-"
-            "projections.csv: sport,league,player,market,line,prob_over,prob_under
-"
-        )
+CSV-format
+odds_props.csv: book,sport,league,player,market,selection,line,odds_decimal,odds_american,timestamp,event_id,opponent
+projections.csv: sport,league,player,market,line,prob_over,prob_under
+"""
     )
 
 # Init state
@@ -150,7 +146,7 @@ ss.setdefault("seen_pick_ids", set())
 
 # ----------------------- Sidebar -----------------------------
 with st.sidebar:
-    st.header("Inställningar")
+    st.header("Installningar")
     sports_selected = st.multiselect("Sporter", DEFAULT_SPORTS, default=DEFAULT_SPORTS)
     top20_default = st.toggle("Filtrera fotboll till Top 20 ligor", value=False)
     top20_list_text = st.text_area(
@@ -169,7 +165,7 @@ with st.sidebar:
     st.divider()
     st.subheader("Notiser")
     discord_webhook = st.text_input("Discord Webhook (valfritt)")
-    auto_alert = st.toggle("Skicka notiser för nya picks", value=False)
+    auto_alert = st.toggle("Skicka notiser for nya picks", value=False)
 
 # ----------------------- Uppladdning -------------------------
 col_upl1, col_upl2 = st.columns(2)
@@ -191,7 +187,7 @@ def read_csv(file, required_cols: List[str]) -> Optional[pd.DataFrame]:
             return None
         return df
     except Exception as e:
-        st.error(f"Kunde inte läsa CSV: {e}")
+        st.error(f"Kunde inte lasa CSV: {e}")
         return None
 
 odds_df = read_csv(odds_file, REQUIRED_ODDS_COLS)
@@ -402,25 +398,16 @@ if not ss["bets_log"].empty:
 st.divider()
 st.subheader("Deploy - Streamlit Cloud")
 st.markdown(
-    (
-        "1. Skapa ett GitHub-repo med prop_finder_streamlit.py och requirements.txt.
-"
-        "2. Gå till share.streamlit.io och koppla ditt repo.
-"
-        "3. (Valfritt) Secrets: APP_PASSWORD och DISCORD_WEBHOOK.
-"
-        "4. Starta appen - du får en publik URL.
+    """
+1. Skapa ett GitHub-repo med prop_finder_streamlit.py och requirements.txt.
+2. Ga till share.streamlit.io och koppla ditt repo.
+3. (Valfritt) Secrets: APP_PASSWORD och DISCORD_WEBHOOK.
+4. Starta appen - du far en publik URL.
 
-"
-        "requirements.txt
-"
-        "streamlit==1.36.0
-"
-        "pandas==2.2.2
-"
-        "numpy==1.26.4
-"
-        "requests==2.32.3
-"
-    )
+requirements.txt
+streamlit==1.36.0
+pandas==2.2.2
+numpy==1.26.4
+requests==2.32.3
+"""
 )
