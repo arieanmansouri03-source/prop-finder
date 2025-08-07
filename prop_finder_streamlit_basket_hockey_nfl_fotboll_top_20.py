@@ -172,20 +172,24 @@ with st.sidebar:
 
     st.divider()
     st.subheader("🔔 Notiser")
-   # Fotboll: begränsa till Top 20 om valt
+ # Fotboll: begränsa till Top 20 om valt
 if top20_default and "Fotboll" in sports_selected:
     top20_set = set([s.strip() for s in top20_list_text.splitlines() if s.strip()])
-    is_football = odds_df["sport"] == "Fotboll"
+
+    # Odds: behåll allt som inte är fotboll + fotboll som matchar top20_set
+    is_football_odds = odds_df["sport"] == "Fotboll"
     odds_df = pd.concat([
-        odds_df[~is_football],
-        odds_df[is_football & odds_df["league"].isin(top20_set)]
+        odds_df[~is_football_odds],
+        odds_df[is_football_odds & odds_df["league"].isin(top20_set)]
     ])
 
-        is_football_p = proj_df["sport"] == "Fotboll"
-        proj_df = pd.concat([
-            proj_df[~is_football_p],
-            proj_df[is_football_p & proj_df["league"].isin(top20_set)]
-        ])
+    # Projections: samma sak
+    is_football_proj = proj_df["sport"] == "Fotboll"
+    proj_df = pd.concat([
+        proj_df[~is_football_proj],
+        proj_df[is_football_proj & proj_df["league"].isin(top20_set)]
+    ])
+
 
     key_cols = ["sport", "league", "player", "market", "line"]
     merged = odds_df.merge(proj_df, on=key_cols, how="left", suffixes=("", "_proj"))
