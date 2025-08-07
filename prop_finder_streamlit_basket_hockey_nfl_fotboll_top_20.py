@@ -156,14 +156,11 @@ ss.setdefault("bets_log", pd.DataFrame(columns=[
 ]))
 ss.setdefault("seen_pick_ids", set())
 
-# Sidebar – konfig
 with st.sidebar:
     st.header("⚙️ Inställningar")
     sports_selected = st.multiselect("Sporter", DEFAULT_SPORTS, default=DEFAULT_SPORTS)
     top20_default = st.toggle("Filtrera fotboll till Top 20 ligor", value=False)
-  top20_list_text = st.text_area("Top 20-lista (1 per rad)", value="\n".join(DEFAULT_TOP20_FOOTBALL_LEAGUES)) 
-
-".join(DEFAULT_TOP20_FOOTBALL_LEAGUES))
+    top20_list_text = st.text_area("Top 20-lista (1 per rad)", value="\n".join(DEFAULT_TOP20_FOOTBALL_LEAGUES))
     min_edge = st.slider("Min Edge%", -10.0, 20.0, 3.0, 0.5)
     min_ev = st.slider("Min EV", -1.0, 1.0, -0.05, 0.01)
 
@@ -178,49 +175,6 @@ with st.sidebar:
     discord_webhook = st.text_input("Discord Webhook (valfritt)")
     auto_alert = st.toggle("Skicka notiser för nya picks", value=False)
 
-# Uppladdning
-col_upl1, col_upl2 = st.columns(2)
-with col_upl1:
-    odds_file = st.file_uploader("Ladda upp odds_props.csv", type=["csv"], key="odds")
-with col_upl2:
-    proj_file = st.file_uploader("Ladda upp projections.csv", type=["csv"], key="proj")
-
-# Läs CSV
-
-def read_csv(file, required_cols: List[str]) -> Optional[pd.DataFrame]:
-    if not file:
-        return None
-    try:
-        df = pd.read_csv(file)
-        missing = [c for c in required_cols if c not in df.columns]
-        if missing:
-            st.error(f"Saknade kolumner: {missing}")
-            return None
-        return df
-    except Exception as e:
-        st.error(f"Kunde inte läsa CSV: {e}")
-        return None
-
-odds_df = read_csv(odds_file, REQUIRED_ODDS_COLS)
-proj_df = read_csv(proj_file, REQUIRED_PROJ_COLS)
-
-# Process
-results_df = None
-if odds_df is not None and proj_df is not None:
-    # Decimal-odds om saknas
-    mask_na_dec = odds_df["odds_decimal"].isna() | (odds_df["odds_decimal"] <= 1)
-    odds_df.loc[mask_na_dec, "odds_decimal"] = odds_df.loc[mask_na_dec, "odds_american"].apply(american_to_decimal)
-
-    # Filtrera sporter
-    odds_df = odds_df[odds_df["sport"].isin(sports_selected)].copy()
-    proj_df = proj_df[proj_df["sport"].isin(sports_selected)].copy()
-
-    # Fotboll Top 20
-    if top20_default and "Fotboll" in sports_selected:
-        top20_set = set([s.strip() for s in top20_list_text.splitlines() if s.strip()])
-        is_football = odds_df["sport"] == "Fotboll"
-        odds_df = pd.concat([
-            odds_df[~is_football],
             odds_df[is_football & odds_df["league"].isin(top20_set)]
         ])
         is_football_p = proj_df["sport"] == "Fotboll"
