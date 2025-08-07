@@ -304,8 +304,13 @@ if results_df is not None and not results_df.empty:
                 msg = (
                 f"""**{r['sport']} – {r['league']}**
 {r['player']} | {r['market']} {r['selection'].upper()} {r['line']} @ {r['odds_decimal']} ({r['book']})"""
+f"""**{r['sport']} – {r['league']}**
+{r['player']} | {r['market']} {r['selection'].upper()} {r['line']} @ {r['odds_decimal']} ({r['book']})"""
+f"""**{r['sport']} – {r['league']}**
 
-"
+f"""**{r['sport']} – {r['league']}**
+{r['player']} | {r['market']} {r['selection'].upper()} {r['line']} @ {r['odds_decimal']} ({r['book']})"""
+
                     f"Edge: {r['EdgePct']:.2f}% | EV: {r['EV']:.3f} | p(model): {r['model_p']:.3f}
 "
                     f"Event: {r.get('event_id','-')} | {r.get('timestamp','')}"
