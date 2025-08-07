@@ -308,7 +308,9 @@ f"""**{r['sport']} – {r['league']}**
 {r['player']} | {r['market']} {r['selection'].upper()} {r['line']} @ {r['odds_decimal']} ({r['book']})"""
 f"""**{r['sport']} – {r['league']}**
 
-f"""**{r['sport']} – {r['league']}**
+f"""**{r['sport']} - {r['league']}**
+{r['player']} | {r['market']} {r['selection'].upper()} {r['line']} @ {r['odds_decimal']} ({r['book']})"""
+
 {r['player']} | {r['market']} {r['selection'].upper()} {r['line']} @ {r['odds_decimal']} ({r['book']})"""
 
                     f"Edge: {r['EdgePct']:.2f}% | EV: {r['EV']:.3f} | p(model): {r['model_p']:.3f}
