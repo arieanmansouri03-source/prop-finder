@@ -161,7 +161,8 @@ with st.sidebar:
     st.header("⚙️ Inställningar")
     sports_selected = st.multiselect("Sporter", DEFAULT_SPORTS, default=DEFAULT_SPORTS)
     top20_default = st.toggle("Filtrera fotboll till Top 20 ligor", value=False)
-    top20_list_text = st.text_area("Top 20-lista (1 per rad)", value="
+  top20_list_text = st.text_area("Top 20-lista (1 per rad)", value="\n".join(DEFAULT_TOP20_FOOTBALL_LEAGUES)) 
+
 ".join(DEFAULT_TOP20_FOOTBALL_LEAGUES))
     min_edge = st.slider("Min Edge%", -10.0, 20.0, 3.0, 0.5)
     min_ev = st.slider("Min EV", -1.0, 1.0, -0.05, 0.01)
