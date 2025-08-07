@@ -146,33 +146,26 @@ ss.setdefault("seen_pick_ids", set())
 
 # ----------------------- Sidebar -----------------------------
 with st.sidebar:
-    st.header("Installningar")
-  st.header("Inställningar")
-sports_selected = st.multiselect("Sporter", DEFAULT_SPORTS, default=DEFAULT_SPORTS)
-top20_default = st.toggle("Filtrera fotboll till Top 20 ligor", value=False)
-top20_list_text = st.text_area(
-    "Top 20-lista (1 per rad)", value="\n".join(DEFAULT_TOP20_FOOTBALL_LEAGUES)
-)
-min_edge = st.slider("Min Edge%", -10.0, 20.0, 3.0, 0.5)
-min_ev = st.slider("Min EV", -1.0, 1.0, -0.05, 0.01)
+    st.header("Inställningar")
+    sports_selected = st.multiselect("Sporter", DEFAULT_SPORTS, default=DEFAULT_SPORTS)
+    top20_default = st.toggle("Filtrera fotboll till Top 20 ligor", value=False)
+    top20_list_text = st.text_area(
+        "Top 20-lista (1 per rad)", value="\n".join(DEFAULT_TOP20_FOOTBALL_LEAGUES)
+    )
+    min_edge = st.slider("Min Edge%", -10.0, 20.0, 3.0, 0.5)
+    min_ev = st.slider("Min EV", -1.0, 1.0, -0.05, 0.01)
 
-st.divider()
-st.subheader("💰 Bankroll")
-ss["bankroll"] = st.number_input("Bankroll", min_value=0.0, value=float(ss["bankroll"]))
-ss["kelly_cap"] = st.slider("Kelly cap (max andel)", 0.0, 1.0, float(ss["kelly_cap"]), 0.05)
-ss["min_unit"] = st.number_input("Minsta insats (unit)", min_value=0.0, value=float(ss["min_unit"]))
-
-st.divider()
-st.subheader("🔔 Notiser")
-discord_webhook = st.text_input("Discord Webhook (valfritt)")
-auto_alert = st.toggle("Skicka notiser för nya picks", value=False)
-
+    st.divider()
+    st.subheader("💰 Bankroll")
     ss["bankroll"] = st.number_input("Bankroll", min_value=0.0, value=float(ss["bankroll"]))
     ss["kelly_cap"] = st.slider("Kelly cap (max andel)", 0.0, 1.0, float(ss["kelly_cap"]), 0.05)
     ss["min_unit"] = st.number_input("Minsta insats (unit)", min_value=0.0, value=float(ss["min_unit"]))
 
     st.divider()
-    st.subheader("Notiser")
+    st.subheader("🔔 Notiser")
+    discord_webhook = st.text_input("Discord Webhook (valfritt)")
+    auto_alert = st.toggle("Skicka notiser för nya picks", value=False)
+
     discord_webhook = st.text_input("Discord Webhook (valfritt)")
     auto_alert = st.toggle("Skicka notiser for nya picks", value=False)
 
