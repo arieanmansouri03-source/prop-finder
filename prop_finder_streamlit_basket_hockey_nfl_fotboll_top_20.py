@@ -172,11 +172,15 @@ with st.sidebar:
 
     st.divider()
     st.subheader("🔔 Notiser")
-    discord_webhook = st.text_input("Discord Webhook (valfritt)")
-    auto_alert = st.toggle("Skicka notiser för nya picks", value=False)
+   # Fotboll: begränsa till Top 20 om valt
+if top20_default and "Fotboll" in sports_selected:
+    top20_set = set([s.strip() for s in top20_list_text.splitlines() if s.strip()])
+    is_football = odds_df["sport"] == "Fotboll"
+    odds_df = pd.concat([
+        odds_df[~is_football],
+        odds_df[is_football & odds_df["league"].isin(top20_set)]
+    ])
 
-            odds_df[is_football & odds_df["league"].isin(top20_set)]
-        ])
         is_football_p = proj_df["sport"] == "Fotboll"
         proj_df = pd.concat([
             proj_df[~is_football_p],
